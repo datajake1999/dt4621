@@ -210,24 +210,6 @@ static void get_next_bound_type (LPTTS_HANDLE_T phTTS, short msym);
 __inline short phone_feature(PDPH_T pDph_t, int phone);
 
 extern short *all_featb[];
-// HELPME
-const short durdic[] = 
-{
-	//10,WBOUND,S1,USP_IH,USP_N,EOS,0,0,110, 0,-1,
-	12,WBOUND,USP_M,S1,USP_IH,USP_D,EOS,0,0,0,85,0,-1,
-	12,WBOUND,USP_LL,S1,USP_AA,USP_T,EOS,0,0, 60,160,0,-1,
-	12,WBOUND,USP_S,S1,USP_IH,USP_T,EOS,0,0,0,65,0,-1,
-	10,WBOUND,S1,USP_EH,USP_N,EOS,0,0,80,70,-1,
-	10,WBOUND,S1,USP_AE,USP_D,EOS,0,0,110, 0,-1,
-	12,WBOUND,USP_W,S1,USP_AO,USP_N,EOS,0,0,0,130,0,-1,   
-	14,WBOUND,USP_W,S1,USP_AH,USP_N,USP_S,EOS,0,0,0,80,0,0,-1, 
-	12,WBOUND,USP_N,S1,USP_EH,USP_V,EOS,0,0,0,1190,0,-1, 
-	12,WBOUND,S1,USP_IY,USP_V,USP_EN,EOS,0,0,142,0,0,-1, 
-	14,WBOUND,USP_P,USP_R,S1,USP_AA,USP_D,EOS,0,0,0,0,140,0,-1,
-	EOS
-};
-
-
 
 #include "ph_sort1.c"	/* language dependent code from phsort */
 #include "ph_sort2.c"	/* language dependent code for multiple languages */
@@ -373,7 +355,6 @@ int phsort (LPTTS_HANDLE_T phTTS)
 	PDPHSETTAR_ST           pDphsettar = pDph_t->pSTphsettar;
 
 	short                   snphonetot = 0;		/* MVP 03/19/96 changed to short from unsigned int */
-	short  *durlookup(PDPH_T pDph_t,short *symbol , short table[]);
 	short                   n = 0, curr_dur = 0, compound_destress = 0, curr_f0 = 0;	/* MVP : Made local */
 	short                   curr_in_phone =0, curr_in_sym = 0, word_init_sw = 0, in_rhyme = 0, m, mf0, nstresses;		/* MVP : made local */
 	short                   nstartphrase = 0;
@@ -385,7 +366,6 @@ int phsort (LPTTS_HANDLE_T phTTS)
 	short	nextvowel=0;
 	short   nextthing=0;
 #endif
-	short *cp;
 	short tmp=0;
 
 #ifndef ENGLISH_US
@@ -1426,27 +1406,6 @@ int phsort (LPTTS_HANDLE_T phTTS)
 
 #endif //remove
 
-		if ( (cp = durlookup(pDph_t, &pDph_t->symbols[n], (short *)&durdic[0])) != NULL)
-		{	
-			tmp=n;
-			do{
-			if(*cp != 0 && tmp == 0)
-			{
-				curr_dur=*cp;
-			}
-			else
-			{
-				pDph_t->user_durs[tmp]=*cp;
-			}
-			tmp++;
-			cp++;
-			}
-			while (*cp != -1);
-		}
-		
-
-
-				
 		if (curr_in_sym < MAX_PHONES)
 		{							   /* A real phoneme */
 			make_phone (pDph_t, curr_in_phone, n, curr_dur, curr_f0);		/* eab try handling stuff in make */
@@ -2132,38 +2091,6 @@ static void delete_symbol (LPTTS_HANDLE_T phTTS, short msym)
 
 
 
-short  *durlookup(PDPH_T pDph_t,short *symbol , short table[])
-{
-	short *lp;
-	/* GL 03/20/1998, BATS#633  use "unsigned char" instead of "char" */
-	short  	*cp;
-	short  	*tp;
-	int   	len;
-
-	tp = &table[0];                 /* Start at the start.  */
-	while ((len = *tp++) != 0) 
-	{            					/* 0 => end of table.   */
-		lp = symbol;              
-		cp = tp;                    /* Start of text.       */
-		for (;;) 
-		{
-			if (*lp != *cp++)         /* Lose match process   */
-				break;
-			if (*lp == GEN_SIL)         /* Input string end reached   */
-				break;
-			if (*cp == EOS)           /* Win.                 */
-            {
-                 return (++cp);    	/* Return phonemes.     */
-            }
-			++lp;
-		   
-		}
-		tp += len;                  /* Next.                */
-	}
-	return (NULL);
-}
- 
- 
 /*
  *      Function Name: make_phone()      
  *
