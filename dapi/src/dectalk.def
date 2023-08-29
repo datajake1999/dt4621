@@ -70,10 +70,6 @@ EXPORTS
 	TextToSpeechSetVolume				@53
 	TextToSpeechGetVolume				@54
 	TextToSpeechVisualMarks				@55	; not working yet
-	TextToSpeechReserved4				@56
-	TextToSpeechReserved6				@57
-	TextToSpeechReserved5				@58 ; GWMICRO
-
 
 ; c 1996 Digital Equipment Corporation. All rights reserved.
 ; (c) 1999 SMART Modular Technologies, Inc. All riights reserved.

@@ -11107,17 +11107,4 @@ MMRESULT TextToSpeechVisualMarks( LPTTS_HANDLE_T phTTS,int value)
 	return(0);
 }
 
-void TextToSpeechReserved4(void) {
-	return;
-}
-void TextToSpeechReserved6(void) {
-	return;
-}
-DWORD TextToSpeechReserved5(LPTTS_HANDLE_T phTTS, unsigned char *reg_entry)
-{
-
-}
-
-
-
 /********************************* end of ttsapi.c *****************************/
