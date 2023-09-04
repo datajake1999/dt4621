@@ -134,19 +134,7 @@ BOOL CEngineEnum::FInit (void)
 STDMETHODIMP CEngineEnum::QueryInterface (REFIID riid, LPVOID *ppv)
 {
    *ppv = NULL;
-#ifdef ACCESS32		//tek 19sep97
-   // we need to fail if we can't get a license count..
-   if (!AddLicenseRef())
-   {
-	   // this is pretty heavyhanded..
-	   return ResultFromScode (E_NOINTERFACE);
-   }
-   else
-   {
-	   ReleaseLicenseRef(); // we were just testing..
-   }
 
-#endif //ACCESS32
 /* always return our IUnkown for IID_IUnknown */
 
    if (IsEqualIID (riid, IID_IUnknown)) *ppv = (LPVOID) this;

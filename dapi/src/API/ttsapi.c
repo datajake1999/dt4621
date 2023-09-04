@@ -672,10 +672,10 @@ FILE *fpODS_File=NULL;
 #ifndef STATIC_BUILD
 #ifndef _DEBUG
 #ifndef CUP28PROJECT
-#define LICENSES
+//#define LICENSES
 #ifndef LICENSES
-This line will cause an error to signal the fact that the license symbol,
-was not defined.
+//This line will cause an error to signal the fact that the license symbol,
+//was not defined.
 #endif	/* LICENSES */
 #endif  /*CUP28PROJECT*/
 #endif	/* _DEBUG */
